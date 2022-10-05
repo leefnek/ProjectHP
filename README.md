@@ -1,2 +1,3 @@
 # ProjectHP
-Creative coding for a sustainable life
+
+Creative coding for sustainable life
