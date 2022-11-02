@@ -1,0 +1,16 @@
+{
+  "name": "projecthp",
+  "version": "1.0.0",
+  "description": "Creative coding for sustainable life",
+  "main": "sketch.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leefnek/ProjectHP.git"
+  },
+  "author": "rudada",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leefnek/ProjectHP/issues"
+  },
+  "homepage": "https://github.com/leefnek/ProjectHP#readme"
+}
