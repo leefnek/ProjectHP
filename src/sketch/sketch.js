@@ -1,7 +1,29 @@
+let video;
+let faceapi;
+let isFaceModelReady = false;
+let leftEyeImg, rightEyeImg, fingerImg;
+
+function preload() {
+  // pattern0 preload
+  leftEyeImg = loadImage("src/img/left-eye.png");
+  rightEyeImg = loadImage("src/img/right-eye.png");
+  fingerImg = loadImage("src/img/finger.png");
+}
+
 function setup() {
   // canvas setting
   createCanvas(windowWidth, windowHeight);
   background("#000");
+
+  // pattern0 setting
+  video = createCapture(VIDEO);
+  video.size(width, height);
+  video.hide();
+  faceapi = ml5.faceApi(video, detection_options, readyFaceModel);
+}
+
+function readyFaceModel() {
+  isFaceModelReady = !isFaceModelReady;
 }
 
 const stepMapper = {
