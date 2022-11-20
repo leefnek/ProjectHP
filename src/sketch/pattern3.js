@@ -1,177 +1,81 @@
 // https://www.openprocessing.org/sketch/1050448
 
-let pattern3Shader;
-let cubeGraphic;
-let targetCubeGraphic;
+function pattern3(sketch) {
+  let pattern3Shader;
+  let cubeGraphic;
+  let targetCubeGraphic;
 
-function pattern3(w) {
-  w.preload = function () {
-    pattern3Shader = loadShader(
+  sketch.preload = function () {
+    pattern3Shader = sketch.loadShader(
       "src/sketch/assets/wave.vert",
       "src/sketch/assets/wave.frag"
     );
   };
 
-  w.setup = function () {
-    w.canvas = createCanvas(windowWidth, windowHeight, WEBGL);
-    w.canvas.position(0, 0);
-    w.canvas.id("canvas_pattern3");
-
-    noStroke();
-    background(0);
-
-    setGraphics("graphic1");
+  sketch.setup = function () {
+    sketch.canvas = sketch.createCanvas(
+      sketch.windowWidth,
+      sketch.windowHeight,
+      sketch.WEBGL
+    );
+    sketch.noStroke();
+    sketch.background(0);
+    setCubeGraphic();
+    sketch.noLoop();
   };
 
-  w.draw = function () {
-    background("#000");
-    // if(frameCount%50 === 0) {
-    //   changeWord(ind)
-    //   if(ind === words.length - 1) {
-    //     ind = 0
-    //   } else{
-    //     ind++
-    //   }
-    // }
+  sketch.keyPressed = function () {
+    const $pattern3 = document.getElementById("pattern3");
+    switch (getStep()) {
+      case 3: {
+        $pattern3.style.zIndex = 0;
+        sketch.noLoop();
+        break;
+      }
+      case 2: {
+        console.log("here");
+        sketch.loop();
+        $pattern3.style.zIndex = 1000;
+        break;
+      }
+    }
+  };
 
-    shader(pattern3Shader);
-    let freq = map(sin(frameCount / 50), -10, 10, 0.0, 5.0);
-    let amp = map(cos(frameCount / 50), 0, 1, 0.1, 0.05);
-    let angle = map((frameCount / 20) % 100, 0, 100, 1, 10);
+  sketch.draw = function () {
+    sketch.background("#000");
+    sketch.shader(pattern3Shader);
+    const freq = sketch.map(
+      sketch.sin(sketch.frameCount / 50),
+      -10,
+      10,
+      0.0,
+      5.0
+    );
+    const amp = sketch.map(sketch.cos(sketch.frameCount / 50), 0, 1, 0.1, 0.05);
+    const angle = sketch.map((sketch.frameCount / 20) % 100, 0, 100, 1, 10);
     // currentShader.setUniform('frequency', mouseX/10)
     pattern3Shader.setUniform("amplitude", amp);
-    pattern3Shader.setUniform("speed", frameCount * 0.05);
+    pattern3Shader.setUniform("speed", sketch.frameCount * 0.05);
     pattern3Shader.setUniform("texture1", cubeGraphic);
     // currentShader.setUniform("texture2", graphic2);
     // currentShader.setUniform("texture3", graphic3);
-    pattern3Shader.setUniform("u_angle", PI / angle);
-    rect(0, 0, width, height);
+    pattern3Shader.setUniform("u_angle", sketch.PI / angle);
+    sketch.rect(0, 0, sketch.width, sketch.height);
     // setupShader(freq, amp)
   };
-}
 
-//pattern3
-function setCubeGraphic() {}
-function setTargetCubeGraphic() {}
+  function setCubeGraphic() {
+    const size = 800;
 
-function changeWord(i) {
-  setGraphics("graphic1", words[i]);
-  // setGraphics("graphic2", words[i]);
-  // setGraphics("graphic3", words[i]);
-}
-
-function setGraphics(g, word) {
-  const size = 800;
-  const centerX = size / 2;
-  const centerY = size / 2;
-
-  if (g == "graphic1") {
-    cubeGraphic = createGraphics(size, size, WEBGL);
+    cubeGraphic = sketch.createGraphics(size, size, sketch.WEBGL);
     cubeGraphic.clear();
     cubeGraphic.background(0, 0, 0);
     cubeGraphic.noFill();
-    // graphic1.textSize(size * 0.1);
-    // graphic1.textAlign(CENTER, CENTER);
-    // graphic1.fill("0");
     cubeGraphic.stroke("#fff");
-    cubeGraphic.rotateX(frameCount * 0.5);
+    cubeGraphic.rotateX(sketch.frameCount * 0.5);
     cubeGraphic.rotateY(0.5);
     cubeGraphic.rotateZ(0.5);
     cubeGraphic.box(100);
-    // graphic1.rotate(1, 1, 1);
-    // graphic1.text(word, centerX, centerY);
   }
-  // if (g == "graphic2") {
-  //   graphic2 = createGraphics(size, size);
-  //   graphic2.background(0, 0, 0);
-  //   graphic2.textFont(font);
-  //   graphic2.textSize(size * 0.1);
-  //   graphic2.textAlign(CENTER, CENTER);
-  //   graphic2.fill("rgba(216, 155, 242, 1.0)");
-  //   graphic2.text(word, centerX - 5, centerY + 5);
-  // }
-  // if (g == "graphic3") {
-  //   graphic3 = createGraphics(size, size);
-  //   graphic3.background(0, 0, 0);
-  //   graphic3.textFont(font);
-  //   graphic3.textSize(size * 0.1);
-  //   graphic3.textAlign(CENTER, CENTER);
-  //   graphic3.fill("rgba(41, 80, 89, 1.0)");
-  //   graphic3.text(word, centerX + 5, centerY + 5);
-  // }
+  function setTargetCubeGraphic() {}
 }
-
-// function pattern3() {
-//   w.setup()
-//   if (!isWebGLInit) return;
-//   background("#000");
-//   // if(frameCount%50 === 0) {
-//   //   changeWord(ind)
-//   //   if(ind === words.length - 1) {
-//   //     ind = 0
-//   //   } else{
-//   //     ind++
-//   //   }
-//   // }
-//   shader(pattern3Shader);
-//   let freq = map(sin(frameCount / 50), -10, 10, 0.0, 5.0);
-//   let amp = map(cos(frameCount / 50), 0, 1, 0.1, 0.05);
-//   let angle = map((frameCount / 20) % 100, 0, 100, 1, 10);
-//   // currentShader.setUniform('frequency', mouseX/10)
-//   pattern3Shader.setUniform("amplitude", amp);
-//   pattern3Shader.setUniform("speed", frameCount * 0.05);
-//   pattern3Shader.setUniform("texture1", graphic1);
-//   // currentShader.setUniform("texture2", graphic2);
-//   // currentShader.setUniform("texture3", graphic3);
-//   pattern3Shader.setUniform("u_angle", PI / angle);
-//   rect(0, 0, width, height);
-//   // setupShader(freq, amp)
-// }
-
-// function changeWord(i) {
-//   setGraphics("graphic1", words[i]);
-//   setGraphics("graphic2", words[i]);
-//   setGraphics("graphic3", words[i]);
-// }
-
-// function setGraphics(g, word) {
-//   const size = 800;
-//   const centerX = size / 2;
-//   const centerY = size / 2;
-
-//   if (g == "graphic1") {
-//     graphic1 = createGraphics(size, size, WEBGL);
-//     graphic1.clear();
-//     console.log(graphic1);
-//     graphic1.background(0, 0, 0);
-//     graphic1.noFill();
-//     // graphic1.textSize(size * 0.1);
-//     // graphic1.textAlign(CENTER, CENTER);
-//     // graphic1.fill("0");
-//     graphic1.stroke("#fff");
-//     graphic1.rotateX(frameCount * 0.5);
-//     graphic1.rotateY(0.5);
-//     graphic1.rotateZ(0.5);
-//     graphic1.box(100);
-//     // graphic1.rotate(1, 1, 1);
-//     // graphic1.text(word, centerX, centerY);
-//   }
-//   // if (g == "graphic2") {
-//   //   graphic2 = createGraphics(size, size);
-//   //   graphic2.background(0, 0, 0);
-//   //   graphic2.textFont(font);
-//   //   graphic2.textSize(size * 0.1);
-//   //   graphic2.textAlign(CENTER, CENTER);
-//   //   graphic2.fill("rgba(216, 155, 242, 1.0)");
-//   //   graphic2.text(word, centerX - 5, centerY + 5);
-//   // }
-//   // if (g == "graphic3") {
-//   //   graphic3 = createGraphics(size, size);
-//   //   graphic3.background(0, 0, 0);
-//   //   graphic3.textFont(font);
-//   //   graphic3.textSize(size * 0.1);
-//   //   graphic3.textAlign(CENTER, CENTER);
-//   //   graphic3.fill("rgba(41, 80, 89, 1.0)");
-//   //   graphic3.text(word, centerX + 5, centerY + 5);
-//   // }
-// }
