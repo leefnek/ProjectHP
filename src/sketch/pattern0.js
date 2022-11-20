@@ -46,6 +46,7 @@ function pattern0(sketch) {
   };
 
   sketch.draw = function () {
+    sketch.imageMode(sketch.CORNER);
     if (isFaceModelReady) {
       faceapi.detect(drawFace);
     }
@@ -69,6 +70,7 @@ function pattern0(sketch) {
   }
 
   function drawBox(detections) {
+    sketch.rectMode(sketch.CORNER);
     for (let i = 0; i < detections.length; i++) {
       const alignedRect = detections[i].alignedRect;
       const x = alignedRect._box._x;
@@ -84,20 +86,42 @@ function pattern0(sketch) {
   }
 
   function drawLandmarks(detections) {
-    sketch.stroke(161, 95, 251);
-    sketch.strokeWeight(2);
-    sketch.noFill();
+    sketch.imageMode(sketch.CENTER);
+    for (const detection of detections) {
+      const alignedRect = detection.alignedRect;
+      const boxWidth = alignedRect._box._width;
+      const boxHeight = alignedRect._box._height;
+      const widthFifth = boxWidth / 5;
+      const heightThird = boxHeight / 3;
+      const mouth = detection.parts.mouth;
+      const leftEye = detection.parts.leftEye;
+      const rightEye = detection.parts.rightEye;
 
-    for (let i = 0; i < detections.length; i++) {
-      const mouth = detections[i].parts.mouth;
-      const leftEye = detections[i].parts.leftEye;
-      const rightEye = detections[i].parts.rightEye;
+      sketch.image(
+        fingerImg,
+        (mouth[0]._x + mouth[6]._x) / 2,
+        mouth[1]._y,
+        widthFifth,
+        widthFifth * 1.265
+      );
 
-      sketch.image(fingerImg, mouth[1]._x + 20, mouth[1]._y - 20);
+      sketch.image(
+        leftEyeImg,
+        (leftEye[0]._x + leftEye[3]._x) / 2,
+        (leftEye[2]._y + leftEye[4]._y) / 2,
+        widthFifth,
+        heightThird / 3
+      );
 
-      sketch.image(leftEyeImg, leftEye[1]._x - 10, leftEye[1]._y - 20);
-      sketch.image(rightEyeImg, rightEye[1]._x + 10, rightEye[1]._y - 20);
+      sketch.image(
+        rightEyeImg,
+        (rightEye[0]._x + rightEye[3]._x) / 2,
+        (rightEye[2]._y + rightEye[4]._y) / 2,
+        widthFifth,
+        heightThird / 3
+      );
     }
+    sketch.imageMode(sketch.CORNER);
   }
 
   function readyFaceModel() {
