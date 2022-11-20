@@ -29,7 +29,7 @@ function pattern0(sketch) {
     faceapi = ml5.faceApi(video, detection_options, readyFaceModel);
   };
 
-  sketch.keyPressed = function () {
+  sketch.mouseClicked = function () {
     const $pattern0 = document.getElementById("pattern0");
     switch (getStep()) {
       case 0: {

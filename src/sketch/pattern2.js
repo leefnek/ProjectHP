@@ -1,6 +1,6 @@
 function pattern2(sketch) {
   let video;
-  const vScale = 20;
+  const vScale = 15;
   const colors = [
     "#D65108",
     "#7dce82",
@@ -23,7 +23,7 @@ function pattern2(sketch) {
     sketch.noLoop();
   };
 
-  sketch.keyPressed = function () {
+  sketch.mouseClicked = function () {
     const $pattern2 = document.getElementById("pattern2");
     switch (getStep()) {
       case 2: {

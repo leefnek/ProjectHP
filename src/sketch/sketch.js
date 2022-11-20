@@ -9,8 +9,8 @@ let pattern2Sketch = new p5(pattern2, "pattern2");
 let pattern3Sketch = new p5(pattern3, "pattern3");
 let pattern4Sketch = new p5(pattern4, "pattern4");
 
-window.addEventListener("keydown", keyPressed);
-function keyPressed() {
+window.addEventListener("click", handleClick);
+function handleClick() {
   // 사용자가 클릭한 위치가 pos + offset인 경우 addStep한다.
   // offset과 나타나는 주기를 여기서 관리
   addStep();

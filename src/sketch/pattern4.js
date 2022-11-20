@@ -43,7 +43,7 @@ function pattern4(sketch) {
     sketch.noLoop();
   };
 
-  sketch.keyPressed = function () {
+  sketch.mouseClicked = function () {
     const $pattern4 = document.getElementById("pattern4");
     switch (getStep()) {
       case 4: {

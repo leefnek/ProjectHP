@@ -26,12 +26,13 @@ function pattern1(sketch) {
     sketch.noLoop();
   };
 
-  sketch.keyPressed = function () {
+  sketch.mouseClicked = function () {
     const $pattern1 = document.getElementById("pattern1");
     switch (getStep()) {
       case 1: {
         $pattern1.style.zIndex = 0;
         sketch.noLoop();
+        boxes.splice(0, boxes.length);
         break;
       }
       case 0: {

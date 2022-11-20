@@ -24,7 +24,7 @@ function pattern3(sketch) {
     sketch.noLoop();
   };
 
-  sketch.keyPressed = function () {
+  sketch.mouseClicked = function () {
     const $pattern3 = document.getElementById("pattern3");
     switch (getStep()) {
       case 3: {
@@ -33,7 +33,6 @@ function pattern3(sketch) {
         break;
       }
       case 2: {
-        console.log("here");
         sketch.loop();
         $pattern3.style.zIndex = 1000;
         break;
@@ -57,7 +56,7 @@ function pattern3(sketch) {
     pattern3Shader.setUniform("amplitude", amp);
     pattern3Shader.setUniform("speed", sketch.frameCount * 0.05);
     pattern3Shader.setUniform("texture1", cubeGraphic);
-    // currentShader.setUniform("texture2", graphic2);
+    pattern3Shader.setUniform("texture2", cubeGraphic);
     // currentShader.setUniform("texture3", graphic3);
     pattern3Shader.setUniform("u_angle", sketch.PI / angle);
     sketch.rect(0, 0, sketch.width, sketch.height);
