@@ -89,4 +89,11 @@
   font-family: "hp", cursive;
   font-size: 40px;
   color: #fff;
+  text-align: center;
+}
+
+#Outro > span.plain_text {
+  font-size: 20px;
+  margin-top: 10px;
+  color: #969696;
 }

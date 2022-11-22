@@ -58,10 +58,8 @@ function pattern2(sketch) {
     pattern2Shader.setUniform("speed", sketch.frameCount * 0.07);
     pattern2Shader.setUniform("texture1", cubeGraphic);
     pattern2Shader.setUniform("texture2", cube2Graphic);
-    // currentShader.setUniform("texture3", graphic3);
     pattern2Shader.setUniform("u_angle", sketch.PI / angle);
     sketch.rect(0, 0, sketch.width, sketch.height);
-    // setupShader(freq, amp)
   };
 
   function setCubeGraphic() {
@@ -71,7 +69,9 @@ function pattern2(sketch) {
     cubeGraphic.clear();
     cubeGraphic.background(0, 0, 0);
     cubeGraphic.noFill();
-    cubeGraphic.stroke("#fff");
+
+    cubeGraphic.stroke("#2EFFFFB3");
+    cubeGraphic.strokeWeight("3");
     cubeGraphic.rotateX(sketch.frameCount * 0.5);
     cubeGraphic.rotateY(0.5);
     cubeGraphic.rotateZ(0.5);
@@ -85,7 +85,8 @@ function pattern2(sketch) {
     cube2Graphic.clear();
     cube2Graphic.background(0, 0, 0);
     cube2Graphic.noFill();
-    cube2Graphic.stroke("#abdbe3");
+    cube2Graphic.stroke("#00FF4DB3");
+    cube2Graphic.strokeWeight("3");
     cube2Graphic.rotateX(sketch.frameCount * 0.5);
     cube2Graphic.rotateY(0.3);
     cube2Graphic.rotateZ(0.7);

@@ -1,5 +1,5 @@
 function pattern4(sketch) {
-  let palette = ["#0511F2", "#5E90F2", "#0477BF", "#032619", "#F2B705"];
+  let palette = ["#C04BF2", "#6232A6", "#20448C", "#45A9BF", "#244E73"];
 
   let particles = [];
   let pg;
@@ -18,10 +18,14 @@ function pattern4(sketch) {
     pg = sketch.createGraphics(sketch.width, sketch.height);
     pg.background(0);
     pg.textFont(font);
-    pg.textSize(180);
+    pg.textSize(sketch.height / 6);
     pg.fill(255);
     pg.textAlign(sketch.LEFT, sketch.TOP);
-    pg.text("프로젝트 흡", sketch.width / 2 - 450, sketch.height / 4);
+    pg.text(
+      "프로젝트 흡",
+      sketch.width / 2 - (sketch.height * 2) / 5,
+      sketch.height / 5
+    );
 
     for (let x = 0; x < sketch.width; x += 3) {
       for (let y = 0; y < sketch.height; y += 3) {
@@ -91,11 +95,15 @@ function pattern4(sketch) {
         size - sketch.sin(1 / sketch.dist(moveX, moveY, this.x, this.y)) * 5;
 
       let letterCol = this.color;
-      letterCol.setAlpha(128 + 128 * sketch.sin(sketch.millis() / 1000));
+      letterCol.setAlpha(
+        128 +
+          128 * sketch.map(sketch.sin(sketch.millis() / 1000), -1, 1, -1, 0.8)
+      );
       sketch.fill(letterCol);
       sketch.noStroke();
       sketch.ellipse(moveX, moveY, letterSize, letterSize);
-      // sketch.ellipse(tempX, tempY, scatterSize / 2, scatterSize / 2); // 주변 흩뿌리는 파티클 효과
+      sketch.fill("#FFFF48B3");
+      sketch.ellipse(tempX, tempY, scatterSize / 2, scatterSize / 2);
     }
   }
 }
