@@ -1,26 +1,25 @@
-// https://www.openprocessing.org/sketch/1050448
-
 function pattern3(sketch) {
-  let pattern3Shader;
-  let cubeGraphic;
-  let targetCubeGraphic;
-
-  sketch.preload = function () {
-    pattern3Shader = sketch.loadShader(
-      "src/sketch/assets/wave.vert",
-      "src/sketch/assets/wave.frag"
-    );
-  };
+  let video;
+  const vScale = 15;
+  const colors = [
+    "#D65108",
+    "#7dce82",
+    "#0075C4",
+    "#EFA00B",
+    "#e8e288",
+    "#DDFCAD",
+    "#74D3AE",
+  ];
 
   sketch.setup = function () {
-    sketch.canvas = sketch.createCanvas(
-      sketch.windowWidth,
-      sketch.windowHeight,
-      sketch.WEBGL
-    );
-    sketch.noStroke();
+    sketch.createCanvas(sketch.windowWidth, sketch.windowHeight, sketch.WEBGL);
     sketch.background(0);
-    setCubeGraphic();
+    sketch.pixelDensity(1);
+    video = sketch.createCapture(sketch.VIDEO);
+    video.size(sketch.width / vScale, sketch.height / vScale);
+    video.hide();
+    sketch.rectMode(sketch.CENTER);
+    sketch.angleMode(sketch.DEGREES);
     sketch.noLoop();
   };
 
@@ -41,40 +40,89 @@ function pattern3(sketch) {
   };
 
   sketch.draw = function () {
-    sketch.background("#000");
-    sketch.shader(pattern3Shader);
-    const freq = sketch.map(
-      sketch.sin(sketch.frameCount / 50),
-      -10,
-      10,
-      0.0,
-      5.0
-    );
-    const amp = sketch.map(sketch.cos(sketch.frameCount / 50), 0, 1, 0.1, 0.05);
-    const angle = sketch.map((sketch.frameCount / 20) % 100, 0, 100, 1, 10);
-    // currentShader.setUniform('frequency', mouseX/10)
-    pattern3Shader.setUniform("amplitude", amp);
-    pattern3Shader.setUniform("speed", sketch.frameCount * 0.05);
-    pattern3Shader.setUniform("texture1", cubeGraphic);
-    pattern3Shader.setUniform("texture2", cubeGraphic);
-    // currentShader.setUniform("texture3", graphic3);
-    pattern3Shader.setUniform("u_angle", sketch.PI / angle);
-    sketch.rect(0, 0, sketch.width, sketch.height);
-    // setupShader(freq, amp)
+    if (!sketch.isLooping()) return;
+    sketch.background(0);
+    video.loadPixels();
+
+    for (var y = 0; y < video.height; y++) {
+      for (var x = 0; x < video.width; x++) {
+        var index = (x + y * video.width) * 4;
+
+        var r = video.pixels[index + 0];
+        var g = video.pixels[index + 1];
+        var b = video.pixels[index + 2];
+
+        var bright = (r + g + b) / 3;
+        var w = sketch.map(bright, 0, 225, 10, vScale);
+
+        threeD(x, y, w, bright);
+      }
+    }
   };
 
-  function setCubeGraphic() {
-    const size = 800;
+  function threeD(x, y, w, bright) {
+    // rect(x * vScale, y * vScale, w, w);
+    // noStroke()
+    let order = sketch.int(Math.ceil(sketch.map(bright, 0, 255, 0, 4)));
+    // if(bright < 50) order = 0
 
-    cubeGraphic = sketch.createGraphics(size, size, sketch.WEBGL);
-    cubeGraphic.clear();
-    cubeGraphic.background(0, 0, 0);
-    cubeGraphic.noFill();
-    cubeGraphic.stroke("#fff");
-    cubeGraphic.rotateX(sketch.frameCount * 0.5);
-    cubeGraphic.rotateY(0.5);
-    cubeGraphic.rotateZ(0.5);
-    cubeGraphic.box(100);
+    // strokeWeight(2)
+
+    let diameter = vScale;
+
+    // noFill()
+    // noStroke()
+    sketch.fill(colors[order]);
+    sketch.strokeWeight(0.5);
+    sketch.push();
+
+    switch (order) {
+      case 0:
+        sketch.translate(
+          x * vScale + vScale / 2 - sketch.width / 2,
+          y * vScale + vScale / 2 - sketch.height / 2
+        );
+
+        sketch.rotateZ(sketch.mouseY);
+        sketch.rotateY(sketch.mouseY);
+        sketch.box(vScale);
+        break;
+
+      case 1:
+        sketch.translate(
+          x * vScale + vScale / 2 - sketch.width / 2,
+          y * vScale + vScale / 2 - sketch.height / 2,
+          sketch.abs(sketch.cos(sketch.frameCount * 2)) * 600
+        );
+        sketch.rotateZ(sketch.mouseX);
+        sketch.noFill();
+        sketch.stroke(colors[order % colors.length]);
+        sketch.box(vScale / 2);
+        break;
+
+      case 2:
+        sketch.translate(
+          x * vScale + vScale / 2 - sketch.width / 2,
+          y * vScale + vScale / 2 - sketch.height / 2
+        );
+        sketch.noFill();
+        sketch.strokeWeight(2);
+        sketch.stroke(colors[order % colors.length]);
+        sketch.arc(0, 0, vScale / 1.5);
+        sketch.arc(-diameter / 2, diameter / 2, vScale, vScale, 270, 360);
+        sketch.arc(diameter / 2, -diameter / 2, vScale, vScale, 90, 180);
+        break;
+
+      case 3:
+        sketch.translate(
+          x * vScale + vScale / 2 - sketch.width / 2,
+          y * vScale + vScale / 2 - sketch.height / 2
+        );
+        sketch.rotateX(sketch.mouseX);
+        sketch.rotateZ(sketch.mouseX);
+        sketch.box(vScale / 1.5);
+        break;
+    }
+    sketch.pop();
   }
-  function setTargetCubeGraphic() {}
 }
