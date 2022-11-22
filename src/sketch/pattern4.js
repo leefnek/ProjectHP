@@ -5,7 +5,7 @@ function pattern4(sketch) {
   let pg;
   let font;
 
-  let sizeSlider, size;
+  let size = 10;
 
   sketch.preload = function () {
     font = sketch.loadFont("src/sketch/assets/Ycomputer.ttf");
@@ -22,7 +22,6 @@ function pattern4(sketch) {
     pg.fill(255);
     pg.textAlign(sketch.LEFT, sketch.TOP);
     pg.text("프로젝트 흡", sketch.width / 2 - 450, sketch.height / 4);
-    sizeSlider = sketch.createSlider(1, 20, 10);
 
     for (let x = 0; x < sketch.width; x += 3) {
       for (let y = 0; y < sketch.height; y += 3) {
@@ -30,12 +29,7 @@ function pattern4(sketch) {
           JSON.stringify(pg.get(x, y)) !== JSON.stringify([0, 0, 0, 255]);
         if (isTEXT) {
           particles.push(
-            new Particle(
-              x,
-              y,
-              sizeSlider.value(),
-              sketch.color(sketch.random(palette))
-            )
+            new Particle(x, y, size, sketch.color(sketch.random(palette)))
           );
         }
       }
@@ -61,7 +55,6 @@ function pattern4(sketch) {
 
   sketch.draw = function () {
     if (!sketch.isLooping()) return;
-    size = sizeSlider.value();
 
     sketch.background(0);
     let n =
