@@ -3,7 +3,7 @@
 function pattern2(sketch) {
   let pattern2Shader;
   let cubeGraphic;
-  let targetCubeGraphic;
+  let cube2Graphic;
 
   sketch.preload = function () {
     pattern2Shader = sketch.loadShader(
@@ -21,6 +21,7 @@ function pattern2(sketch) {
     sketch.noStroke();
     sketch.background(0);
     setCubeGraphic();
+    setCube2Graphic();
     sketch.noLoop();
   };
 
@@ -50,13 +51,13 @@ function pattern2(sketch) {
       0.0,
       5.0
     );
-    const amp = sketch.map(sketch.cos(sketch.frameCount / 50), 0, 1, 0.1, 0.05);
-    const angle = sketch.map((sketch.frameCount / 20) % 100, 0, 100, 1, 10);
-    // currentShader.setUniform('frequency', mouseX/10)
+    const amp = sketch.map(sketch.cos(sketch.frameCount / 40), 0, 1, 0.1, 0.03);
+    const angle = sketch.map((sketch.frameCount / 20) % 80, 0, 80, 1, 5);
+    pattern2Shader.setUniform("frequency", 3);
     pattern2Shader.setUniform("amplitude", amp);
-    pattern2Shader.setUniform("speed", sketch.frameCount * 0.05);
+    pattern2Shader.setUniform("speed", sketch.frameCount * 0.07);
     pattern2Shader.setUniform("texture1", cubeGraphic);
-    pattern2Shader.setUniform("texture2", cubeGraphic);
+    pattern2Shader.setUniform("texture2", cube2Graphic);
     // currentShader.setUniform("texture3", graphic3);
     pattern2Shader.setUniform("u_angle", sketch.PI / angle);
     sketch.rect(0, 0, sketch.width, sketch.height);
@@ -76,5 +77,18 @@ function pattern2(sketch) {
     cubeGraphic.rotateZ(0.5);
     cubeGraphic.box(100);
   }
-  function setTargetCubeGraphic() {}
+
+  function setCube2Graphic() {
+    const size = 800;
+
+    cube2Graphic = sketch.createGraphics(size, size, sketch.WEBGL);
+    cube2Graphic.clear();
+    cube2Graphic.background(0, 0, 0);
+    cube2Graphic.noFill();
+    cube2Graphic.stroke("#abdbe3");
+    cube2Graphic.rotateX(sketch.frameCount * 0.5);
+    cube2Graphic.rotateY(0.3);
+    cube2Graphic.rotateZ(0.7);
+    cube2Graphic.box(100);
+  }
 }

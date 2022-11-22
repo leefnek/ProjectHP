@@ -2,13 +2,13 @@ function pattern3(sketch) {
   let video;
   const vScale = 15;
   const colors = [
-    "#D65108",
-    "#7dce82",
-    "#0075C4",
-    "#EFA00B",
-    "#e8e288",
-    "#DDFCAD",
+    "#A66312",
+    "#6393A6",
     "#74D3AE",
+    "#D9AA8F",
+    "#A61508",
+    "#D9981E",
+    "#DDFCAD",
   ];
 
   sketch.setup = function () {
